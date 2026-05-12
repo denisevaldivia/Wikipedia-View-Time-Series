@@ -1,0 +1,92 @@
+---
+title: "🎃 Halloween Wikipedia Views"
+subtitle: "Forecast con FFNN y LSTM | Modelos No Lineales"
+author: "Diana Valdivia, Sofía Maldonado, Samantha Sánchez & Rafael Takata"
+date: "2026-05-13"
+format:
+  revealjs:
+    theme: dark
+    transition: fade
+    slide-number: true
+    chalkboard: false
+    logo: ""
+    footer: "Modelos No Lineales · Examen 3"
+    self-contained: false
+execute:
+  echo: false
+  warning: false
+---
+
+## ¿Qué predecimos?
+
+Vistas diarias del artículo **Halloween** en Wikipedia (en inglés),  
+del **1 al 31 de octubre 2025**.
+
+- Serie con spike extremo el 31-oct (~270k views vs ~8k normales)
+- 4 Halloweens disponibles en train (2022–2024)
+- Forecast **recursivo**: cada predicción alimenta la siguiente ventana
+
+---
+
+## Datos y features
+
+| Variable | Correlación | Justificación |
+|---|---|---|
+| `es_halloween` | 0.739 | Spike del 31-oct |
+| `semana_halloween` | 0.611 | Rampa oct 24-30 |
+| `dias_para_halloween` | -0.242 | Pearson engañoso — rampa real |
+| `views_lag7` | 0.213 | Memoria de corto plazo |
+
+---
+
+## Split temporal
+
+```
+Train:  2022-01-01 → 2024-09-30   (~1003 días)
+Val:    2024-10-01 → 2024-10-31   (31 días — Halloween 2024)
+Test:   2025-10-01 → 2025-10-31   (31 días — Halloween 2025)
+```
+
+::: {.callout-note}
+Val contiene un Halloween completo para que el Early Stopping  
+optimice sobre el evento de interés, no sobre días planos.
+:::
+
+---
+
+## Arquitecturas
+
+:::: {.columns}
+
+::: {.column width="50%"}
+**FFNN**
+
+- `Flatten` → `Dense(64, ReLU)`
+- `Dropout(0.2)`
+- `Dense(32, ReLU)`
+- `Dense(1)`
+- Ventana: W=30 días aplanada
+:::
+
+::: {.column width="50%"}
+**LSTM**
+
+- `LSTM(32, dropout=0.3, recurrent_dropout=0.2)`
+- `Dense(16, ReLU)`
+- `Dropout(0.2)`
+- `Dense(1)`
+- Ventana: W=30 días en secuencia
+:::
+
+::::
+
+---
+
+## Curvas de pérdida
+
+```{=html}
+<iframe src="Assets/curvas_perdida.html"
+        width="100%" height="450px"
+        frameborder="0" scrolling="no">
+</iframe>
+```
