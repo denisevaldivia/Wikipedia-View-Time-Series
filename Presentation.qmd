@@ -157,6 +157,68 @@ optimice sobre el evento de interés, no sobre días planos.
 
 ---
 
+## ¿Por qué FFNN y LSTM? — Descartados
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+**Descartamos ARIMA porque...**
+
+- Asume linealidad — no captura la aceleración exponencial de la rampa de Halloween
+- El spike del 31-oct es un outlier tan extremo que distorsiona los parámetros
+- Requiere estacionariedad; esta serie tiene un patrón anual no estacionario
+
+:::
+
+::: {.column width="50%"}
+
+**Descartamos Transformers porque...**
+
+- Requieren grandes volúmenes de datos — solo tenemos ~2,131 observaciones y 4 Halloweens en train
+- Son propensos a overfitting con series cortas
+- La complejidad computacional no se justifica
+
+:::
+
+::::
+
+---
+
+## ¿Por qué FFNN y LSTM? — Nuestra elección
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+**Elegimos FFNN porque...**
+
+- Simple, rápida de entrenar y fácil de interpretar
+- Con ventana aplanada W=45 captura el contexto suficiente
+- Las variables exógenas compensan su falta de memoria temporal
+- Sirve como baseline sólido para comparar
+
+:::
+
+::: {.column width="50%"}
+
+**Elegimos LSTM porque...**
+
+- Diseñada para secuencias temporales con dependencias de largo plazo
+- Su memoria interna captura la rampa gradual de octubre sin necesidad de features explícitas
+- Robusta ante series con spikes cuando se combina con pesos ponderados
+- Es el modelo natural para este tipo de problema
+
+:::
+
+::::
+
+::: {.callout-note}
+Ambos modelos son **no lineales** — pueden aprender la relación exponencial entre `dias_para_halloween` y las vistas.
+:::
+
+---
+
 ## Arquitecturas
 
 :::: {.columns}

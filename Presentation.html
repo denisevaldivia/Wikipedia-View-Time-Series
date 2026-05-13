@@ -296,6 +296,59 @@ Test:   2025-10-01 → 2025-10-31   (31 días — Octubre 2025)</code></pre>
 </div>
 </div>
 </section>
+<section id="por-qué-ffnn-y-lstm-descartados" class="slide level2">
+<h2>¿Por qué FFNN y LSTM? — Descartados</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Descartamos ARIMA porque…</strong></p>
+<ul>
+<li>Asume linealidad — no captura la aceleración exponencial de la rampa de Halloween</li>
+<li>El spike del 31-oct es un outlier tan extremo que distorsiona los parámetros</li>
+<li>Requiere estacionariedad; esta serie tiene un patrón anual no estacionario</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><strong>Descartamos Transformers porque…</strong></p>
+<ul>
+<li>Requieren grandes volúmenes de datos — solo tenemos ~2,131 observaciones y 4 Halloweens en train</li>
+<li>Son propensos a overfitting con series cortas</li>
+<li>La complejidad computacional no se justifica</li>
+</ul>
+</div></div>
+</section>
+<section id="por-qué-ffnn-y-lstm-nuestra-elección" class="slide level2">
+<h2>¿Por qué FFNN y LSTM? — Nuestra elección</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Elegimos FFNN porque…</strong></p>
+<ul>
+<li>Simple, rápida de entrenar y fácil de interpretar</li>
+<li>Con ventana aplanada W=45 captura el contexto suficiente</li>
+<li>Las variables exógenas compensan su falta de memoria temporal</li>
+<li>Sirve como baseline sólido para comparar</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><strong>Elegimos LSTM porque…</strong></p>
+<ul>
+<li>Diseñada para secuencias temporales con dependencias de largo plazo</li>
+<li>Su memoria interna captura la rampa gradual de octubre sin necesidad de features explícitas</li>
+<li>Robusta ante series con spikes cuando se combina con pesos ponderados</li>
+<li>Es el modelo natural para este tipo de problema</li>
+</ul>
+</div></div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Ambos modelos son <strong>no lineales</strong> — pueden aprender la relación exponencial entre <code>dias_para_halloween</code> y las vistas.</p>
+</div>
+</div>
+</div>
+</section>
 <section id="arquitecturas" class="slide level2">
 <h2>Arquitecturas</h2>
 <div class="columns">
