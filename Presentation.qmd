@@ -5,7 +5,7 @@ author: "Diana Valdivia, Sofía Maldonado, Samantha Sánchez & Rafael Takata"
 date: "2026-05-13"
 format:
   revealjs:
-    theme: dark
+    theme: night
     transition: fade
     slide-number: true
     scrollable: true
@@ -18,17 +18,22 @@ execute:
   warning: false
 ---
 
-# **¿Qué predecimos?**
+## ¿Qué predecimos?
 
 :::: {.columns}
+
 ::: {.column width="55%"}
-Vistas diarias del artículo **Halloween** en Wikipedia (en inglés),  
+
+Vistas diarias del artículo **Halloween** en Wikipedia (en inglés),
 extraídas con la **Wikimedia REST API**.
 
 - **Periodo:** 2020–2025 (~2,131 observaciones)
 - **Variable:** `views` — usuarios únicos por día
+
 :::
+
 ::: {.column width="45%"}
+
 ```python
 base = "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article"
 url  = f"{base}/en.wikipedia/all-access/user/Halloween/daily/20200101/20251031"
@@ -37,28 +42,29 @@ df = pd.DataFrame(
     requests.get(url).json()["items"]
 )[["views"]]
 ```
+
 :::
+
 ::::
+
 ---
 
 ## Visualización Inicial
+
 ```{=html}
 <iframe src="Assets/daily_halloween_visits.html"
         width="100%" height="450px"
         frameborder="0" scrolling="no">
 </iframe>
 ```
+
 ---
 
 ## Variables Exógenas
 
-La serie de **Halloween** tiene estacionalidad marcada pero asimétrica: las visitas se aceleran conforme se acerca el 31-oct y caen abruptamente después, como el doble de un codo.
+La serie de **Halloween** tiene estacionalidad marcada pero asimétrica: las visitas se aceleran conforme se acerca el 31-oct y caen abruptamente después.
 
-Por eso, en lugar de depender solo de valores pasados, construimos variables que le dan **contexto temporal** al modelo — no solo "qué pasó antes", sino *cuándo* está ocurriendo y qué tan cerca está de Halloween.
-
----
-
-## Variables Exógenas — Tipos
+Por eso construimos variables que le dan **contexto temporal** al modelo — no solo "qué pasó antes", sino *cuándo* está ocurriendo y qué tan cerca está de Halloween.
 
 :::: {.columns}
 
@@ -66,7 +72,7 @@ Por eso, en lugar de depender solo de valores pasados, construimos variables que
 
 **Variables de calendario**
 
-Representan la cercanía al evento y patrones temporales: `dias_para_halloween`, `es_halloween`, `semana_halloween`, y variables cíclicas (sin/cos) para día de semana y mes.
+`dias_para_halloween`, `es_halloween`, `semana_halloween`, y variables cíclicas (sin/cos) para día de semana y mes.
 
 :::
 
@@ -74,43 +80,13 @@ Representan la cercanía al evento y patrones temporales: `dias_para_halloween`,
 
 **Variables de memoria**
 
-Lags de 7 y 14 días capturan ciclicidad semanal. A largo plazo pasan a alimentarse de predicciones propias — la acumulación de error es menor aquí por la estabilidad de la serie.
+Lags de 7 y 14 días capturan ciclicidad semanal. A largo plazo se alimentan de predicciones propias — la acumulación de error es menor por la estabilidad de la serie.
 
 :::
 
 ::::
 
 ---
-
-## Variables Exógenas 
-
-```{{python}}
-def days_to_halloween(date):
-    hw = pd.Timestamp(date.year, 10, 31)
-    return max((hw - date).days, 0)
-
-# Halloween
-df['dias_para_halloween'] = df.index.map(days_to_halloween)
-df['es_octubre']          = (df.index.month == 10).astype(int)
-df['es_halloween']        = ((df.index.month == 10) & (df.index.day == 31)).astype(int)
-df['semana_halloween']    = ((df.index.month == 10) & (df.index.day >= 24)).astype(int)
-
-# Fecha cíclica
-df['es_fin_de_semana'] = (df.index.dayofweek >= 5).astype(int)
-df['dia_semana_sin']   = np.sin(2 * np.pi * df.index.dayofweek / 7)
-df['dia_semana_cos']   = np.cos(2 * np.pi * df.index.dayofweek / 7)
-df['mes_sin']          = np.sin(2 * np.pi * df.index.month / 12)
-df['mes_cos']          = np.cos(2 * np.pi * df.index.month / 12)
-
-# Lags
-df['views_lag7']  = df['views'].shift(7)
-df['views_lag14'] = df['views'].shift(14)
-
-df_model = df.dropna()
-print(f"Shape final: {df_model.shape}")
-```
----
-
 
 ## Correlación de Pearson
 
@@ -119,28 +95,28 @@ Los valores van de −1 a 1: cercano a 1 = relación positiva fuerte, cercano a 
 
 > Pearson solo detecta relaciones **lineales** y es sensible a valores extremos.
 > Con los spikes de Halloween, algunas variables pueden parecer poco correlacionadas
+> aunque aporten información útil de forma no lineal.
 
 ---
 
+## Correlación de Pearson — Visualización
+
 ```{=html}
 <iframe src="Assets/variables_relacion.html"
-        width="100%" height="550px"
+        width="100%" height="480px"
         frameborder="0" scrolling="no">
 </iframe>
 ```
+
 ---
 
 ## Rampa de vistas hacia Halloween
 
-Para validar que `dias_para_halloween` realmente aporta información útil, se analizó cómo evolucionan las views durante octubre en cada año disponible.
-
-Aunque su correlación de Pearson fue relativamente baja, esto puede deberse a que la relación **no es lineal** — la rampa de visitas se acelera de forma exponencial conforme se acerca el 31-oct, algo que Pearson no captura.
-
----
+Aunque `dias_para_halloween` tuvo correlación de Pearson baja, la relación **no es lineal** — la rampa se acelera de forma exponencial conforme se acerca el 31-oct, algo que Pearson no captura.
 
 ```{=html}
 <iframe src="Assets/halloween_by_year.html"
-        width="100%" height="450px"
+        width="100%" height="380px"
         frameborder="0" scrolling="no">
 </iframe>
 ```
@@ -149,35 +125,33 @@ Aunque su correlación de Pearson fue relativamente baja, esto puede deberse a q
 
 ## Análisis del día de la semana
 
-Las variables `dia_semana_sin`, `dia_semana_cos` y `es_fin_de_semana` obtuvieron correlaciones de aproximadamente **0.01–0.016**, prácticamente cero. Para verificar si esto refleja una ausencia real o si Pearson volvió a "fallar", se graficó el promedio de vistas por día de semana excluyendo octubre.
-
----
+`dia_semana_sin`, `dia_semana_cos` y `es_fin_de_semana` obtuvieron correlaciones de ~0.01–0.016. Para verificar si hay patrón real, se graficó el promedio de vistas por día excluyendo octubre.
 
 ```{=html}
 <iframe src="Assets/views_by_week.html"
-        width="100%" height="450px"
+        width="100%" height="340px"
         frameborder="0" scrolling="no">
 </iframe>
 ```
 
 ¿Hay patrón semanal relevante?
 
-- Máximo (día): Mar = 4,292
-- Mínimo (día): Sáb = 3,000
-- Ratio max/min: 1.43x
+- **Máximo:** Mar = 4,292 vistas
+- **Mínimo:** Sáb = 3,000 vistas
+- **Ratio max/min:** 1.43x
 
 ---
 
 ## Split temporal
 
 ```
-Train:  2020-01-15 → 2024-09-30   (~1721 días)
+Train:  2020-01-15 → 2024-09-30   (~1,721 días)
 Val:    2024-10-01 → 2024-10-31   (31 días — Octubre 2024)
 Test:   2025-10-01 → 2025-10-31   (31 días — Octubre 2025)
 ```
 
 ::: {.callout-note}
-Val contiene un Halloween completo para que el Early Stopping  
+Val contiene un Halloween completo para que el Early Stopping
 optimice sobre el evento de interés, no sobre días planos.
 :::
 
@@ -191,10 +165,11 @@ optimice sobre el evento de interés, no sobre días planos.
 
 **FFNN**
 
-- `Flatten` → `Dense(64, ReLU)`
-- `Dropout(0.2)`
-- `Dense(32, ReLU)`
-- `Dense(1)`
+- `Flatten` → `Dense(256, ReLU)`
+- `Dropout(0.1)`
+- `Dense(128, ReLU)`
+- `Dropout(0.1)`
+- `Dense(64, ReLU)` → `Dense(1)`
 - Ventana: W=45 días aplanada
 
 :::
@@ -203,10 +178,8 @@ optimice sobre el evento de interés, no sobre días planos.
 
 **LSTM**
 
-- `LSTM(32, dropout=0.3, recurrent_dropout=0.2)`
-- `Dense(16, ReLU)`
-- `Dropout(0.2)`
-- `Dense(3)`
+- `LSTM(48)`
+- `Dense(32, ReLU)` → `Dense(1)`
 - Ventana: W=30 días en secuencia
 
 :::
@@ -215,31 +188,27 @@ optimice sobre el evento de interés, no sobre días planos.
 
 ---
 
----
-
 ## Entrenamiento — Pesos Ponderados
 
-El spike de Halloween representa solo unos pocos días dentro de años de datos. Sin ponderación, el modelo aprendería principalmente los días normales e ignoraría el evento más importante.
-
-Durante el entrenamiento, cada observación contribuye al error total según su peso. Con `sample_weights`, el gradiente se escala por ese peso — un día con peso 15 produce un ajuste 15 veces mayor en los parámetros que un día normal.
+Sin ponderación, el modelo aprendería principalmente los días normales e ignoraría el evento más importante. Con `sample_weights`, el gradiente se escala por el peso de cada observación.
 
 :::: {.columns}
 
 ::: {.column width="55%"}
 
-Así se distribuyen los pesos en la serie:
-
-- **Peso 1** — días normales (la mayoría del año)
+- **Peso 1** — días normales
 - **Peso 3–4** — rampa: 26–30 de octubre
 - **Peso 10–15** — spike: 31 de octubre
+
+Un día con peso 15 produce un ajuste **15 veces mayor** en los parámetros que un día normal.
 
 :::
 
 ::: {.column width="45%"}
 
 ```python
-def make_sample_weights(dates, 
-    spike_weight=15.0, 
+def make_sample_weights(dates,
+    spike_weight=15.0,
     ramp_weight=3.0):
   w = np.ones(len(dates))
   for i, d in enumerate(dates):
@@ -253,8 +222,6 @@ def make_sample_weights(dates,
 :::
 
 ::::
-
-El efecto: el modelo es penalizado **mucho más fuertemente** cuando falla en el spike o en la rampa previa, forzándolo a aprender esos pocos días críticos aunque sean minoría en el dataset.
 
 ---
 
@@ -289,7 +256,7 @@ El efecto: el modelo es penalizado **mucho más fuertemente** cuando falla en el
 ::::
 
 ::: {.callout-note}
-**¿Por qué Huber?** Con MSE, los spikes de Halloween se castigarían de forma desproporcionada al elevar el error al cuadrado. Huber se comporta como MSE para errores pequeños y como MAE para errores grandes (`delta=1.0`), siendo más robusto ante outliers extremos.
+**¿Por qué Huber?** Con MSE los spikes se castigarían de forma desproporcionada. Huber se comporta como MSE para errores pequeños y como MAE para errores grandes (`delta=1.0`), siendo más robusto ante outliers extremos.
 :::
 
 ---
@@ -307,13 +274,13 @@ Veamos como se ven las curvas de pérdida de nuestros modelos:
 
 ---
 
-## Forecast Recursivo, Halloweeen 2025
+## Forecast Recursivo — Halloween 2025
 
-Para probar que el modelo funciona, porbemos a predecir un futuro que ya conocemos, el del año pasado:
+Probamos prediciendo un futuro que ya conocemos para validar el modelo.
 
 ```{=html}
 <iframe src="Assets/forecast_ensamble_3.html"
-        width="100%" height="450px"
+        width="100%" height="400px"
         frameborder="0" scrolling="no">
 </iframe>
 ```
@@ -334,25 +301,27 @@ El modelo LSTM es considerablemente mejor en todas las métricas a comparación 
 ---
 
 ## Errores Acumulados
+
 ```{=html}
 <iframe src="Assets/errores_acumulados_2.html"
-        width="100%" height="450px"
+        width="100%" height="360px"
         frameborder="0" scrolling="no">
 </iframe>
 ```
+
 Error en el spike (31-oct 2025):
 
-- FFNN: 35,037 views
-- LSTM: 8,184 views
+- **FFNN:** 35,037 views
+- **LSTM:** 8,184 views
 
-Error promedio dias normales (1-30 oct):
+Error promedio días normales (1–30 oct):
 
-- FFNN: 6,453 views
-- LSTM: 3,217 views
+- **FFNN:** 6,453 views
+- **LSTM:** 3,217 views
 
 ---
 
-## Predicciónes a Futuro, 2026 y 2027
+## Predicciones a Futuro — 2026 y 2027
 
 ```{=html}
 <iframe src="Assets/predicciones_halloween_2.html"
@@ -365,16 +334,15 @@ Error promedio dias normales (1-30 oct):
 
 ## Análisis de Predicciones
 
-- Respetan el comportamiento histórico, sin exceder el rango típico de spikes anteriores
-- Captan la tendencia a la baja que ha mostrado en años recientes
-- FFNN sigue dando predicciones más altas, LSTM sigue siendo más conservador
-- El LSTM es incluso mejor que el modelo ensamble
+- Respetan el comportamiento histórico sin exceder el rango típico de spikes anteriores
+- Captan la tendencia a la baja mostrada en años recientes
+- FFNN predice más alto, LSTM es más conservador y preciso
 
 ---
 
 ## Conclusiones
 
-- Este proyecto tenía el problema principal de tener una serie muy regular con un pico muy desproporcional cada año
-- Ayudó mucho que este pico es uno perfectamente predecible y conocido
-- La transformación logarítmica sirvió mucho para que la serie también aprendiera el comportamiento general de la serie el resto del año
-- Las variables exógenas fueron fundamentales para ayudar a las redes neuronales a comprender el por qué del comportamiento de la serie
+- El principal reto fue una serie muy regular con un pico muy desproporcional cada año
+- Ayudó que el pico es perfectamente predecible y conocido
+- La transformación logarítmica permitió que la red aprendiera también el comportamiento general fuera de octubre
+- Las variables exógenas fueron fundamentales para que las redes entendieran el *por qué* del comportamiento de la serie
