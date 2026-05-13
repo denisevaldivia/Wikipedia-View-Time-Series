@@ -6,8 +6,8 @@
 <script src="Presentation_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Presentation_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Presentation_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Presentation_files/libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.37">
+<link href="Presentation_files/libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.36">
 
   <meta name="author" content="Diana Valdivia, Sofía Maldonado, Samantha Sánchez &amp; Rafael Takata">
   <meta name="dcterms.date" content="2026-05-13">
@@ -167,22 +167,22 @@ del <strong>1 al 31 de octubre 2025</strong>.</p>
 <tbody>
 <tr class="odd">
 <td><code>es_halloween</code></td>
-<td>0.739</td>
+<td><span class="math inline">\(0.739\)</span></td>
 <td>Spike del 31-oct</td>
 </tr>
 <tr class="even">
 <td><code>semana_halloween</code></td>
-<td>0.611</td>
+<td><span class="math inline">\(0.611\)</span></td>
 <td>Rampa oct 24-30</td>
 </tr>
 <tr class="odd">
 <td><code>dias_para_halloween</code></td>
-<td>-0.242</td>
+<td><span class="math inline">\(-0.242\)</span></td>
 <td>Pearson engañoso — rampa real</td>
 </tr>
 <tr class="even">
 <td><code>views_lag7</code></td>
-<td>0.213</td>
+<td><span class="math inline">\(0.213\)</span></td>
 <td>Memoria de corto plazo</td>
 </tr>
 </tbody>
@@ -191,8 +191,8 @@ del <strong>1 al 31 de octubre 2025</strong>.</p>
 <section id="split-temporal" class="slide level2">
 <h2>Split temporal</h2>
 <pre><code>Train:  2022-01-01 → 2024-09-30   (~1003 días)
-Val:    2024-10-01 → 2024-10-31   (31 días — Halloween 2024)
-Test:   2025-10-01 → 2025-10-31   (31 días — Halloween 2025)</code></pre>
+Val:    2024-10-01 → 2024-10-31   (31 días — Octubre 2024)
+Test:   2025-10-01 → 2025-10-31   (31 días — Octubre 2025)</code></pre>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -207,6 +207,11 @@ optimice sobre el evento de interés, no sobre días planos.</p>
 </div>
 </div>
 </div>
+</section>
+<section id="halloween-a-lo-largo-de-los-años" class="slide level2">
+<h2>Halloween, a lo largo de los años</h2>
+<img src="Assets/newplot.png" width="100%" height="450px" frameborder="0" scrolling="no">
+
 </section>
 <section id="arquitecturas" class="slide level2">
 <h2>Arquitecturas</h2>
@@ -226,15 +231,86 @@ optimice sobre el evento de interés, no sobre días planos.</p>
 <li><code>LSTM(32, dropout=0.3, recurrent_dropout=0.2)</code></li>
 <li><code>Dense(16, ReLU)</code></li>
 <li><code>Dropout(0.2)</code></li>
-<li><code>Dense(1)</code></li>
+<li><code>Dense(3)</code></li>
 <li>Ventana: W=30 días en secuencia</li>
 </ul>
+</div></div>
+</section>
+<section id="arquitecturas-2" class="slide level2">
+<h2>Arquitecturas 2</h2>
+<div class="columns">
+<div class="column" style="width:100%;">
+<p><strong>Ensamble</strong> - Combinación sencilla de los resultados de los modelos. Se suman ambos y se dividen entre 2</p>
 </div></div>
 </section>
 <section id="curvas-de-pérdida" class="slide level2">
 <h2>Curvas de pérdida</h2>
 <iframe src="Assets/curvas_perdida.html" width="100%" height="450px" frameborder="0" scrolling="no">
 </iframe>
+</section>
+<section id="forecast-recursivo-halloweeen-2025" class="slide level2">
+<h2>Forecast Recursivo, Halloweeen 2025</h2>
+<iframe src="Assets/forecast_ensamble_3.html" width="100%" height="450px" frameborder="0" scrolling="no">
+</iframe>
+<p>Prueba del modelo con datos ya conocidos</p>
+</section>
+<section id="métricas-de-rendimiento" class="slide level2">
+<h2>Métricas de Rendimiento</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Modelo</th>
+<th>MAE</th>
+<th>RMSE</th>
+<th>MAPE (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>FFNN</code></td>
+<td><span class="math inline">\(7375.39\)</span></td>
+<td><span class="math inline">\(10111.30\)</span></td>
+<td><span class="math inline">\(34.02\)</span></td>
+</tr>
+<tr class="even">
+<td><code>LSTM</code></td>
+<td><span class="math inline">\(3377.65\)</span></td>
+<td><span class="math inline">\(6825.92\)</span></td>
+<td><span class="math inline">\(12.32\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>El modelo LSTM es considerablemente mejor en todas las métricas a comparación del FFNN. La LSTM logra capturar mejor la dinámica temporal de la serie y la aceleración de Halloween.</p>
+</section>
+<section id="errores-acumulados" class="slide level2">
+<h2>Errores Acumulados</h2>
+<iframe src="Assets/errores_acumulados_2.html" width="100%" height="450px" frameborder="0" scrolling="no">
+</iframe>
+<p>Error en el spike (31-oct 2025): FFNN: 35,037 views LSTM: 8,184 views</p>
+<p>Error promedio dias normales (1-30 oct): FFNN: 6,453 views LSTM: 3,217 views</p>
+</section>
+<section id="predicciónes-a-futuro-2026-y-2027" class="slide level2">
+<h2>Predicciónes a Futuro, 2026 y 2027</h2>
+<iframe src="Assets/predicciones_halloween_2.html" width="100%" height="450px" frameborder="0" scrolling="no">
+</iframe>
+</section>
+<section id="análisis-de-predicciones" class="slide level2">
+<h2>Análisis de Predicciones</h2>
+<ul>
+<li>Respetan el comportamiento histórico, sin exceder el rango típico de spikes anteriores</li>
+<li>Captan la tendencia a la alta que ha mostrado en años recientes</li>
+<li>FFNN sigue dando predicciones más altas, LSTM sigue siendo más conservador</li>
+<li>El LSTM es incluso mejor que el modelo ensamble</li>
+</ul>
+</section>
+<section id="conclusiones" class="slide level2">
+<h2>Conclusiones</h2>
+<ul>
+<li>Este proyecto tenía el problema principal de tener una serie muy regular con un pico muy desproporcional cada año</li>
+<li>Ayudó mucho que este pico es uno perfectamente predecible y conocido</li>
+<li>La transformación logarítmica sirvió mucho para que la serie también aprendiera el comportamiento general de la serie el resto del año</li>
+<li>Las variables exógenas fueron fundamentales para ayudar a las redes neuronales a comprender el por qué del comportamiento de la serie</li>
+</ul>
 
 </section>
     </div>
