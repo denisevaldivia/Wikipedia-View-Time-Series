@@ -6,8 +6,8 @@
 <script src="Presentation_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Presentation_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Presentation_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Presentation_files/libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.36">
+<link href="Presentation_files/libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Diana Valdivia, Sofía Maldonado, Samantha Sánchez &amp; Rafael Takata">
   <meta name="dcterms.date" content="2026-05-13">
@@ -32,6 +32,72 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
   </style>
   <link rel="stylesheet" href="Presentation_files/libs/revealjs/dist/theme/quarto-4df01d85d5cf19cc6202400f4f043f84.css">
   <link href="Presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -49,6 +115,7 @@
     }
     .reveal .slide:not(.center) {
       height: 100%;
+      overflow-y: auto;
     }
     .reveal .slide.scrollable {
       overflow-y: auto;
@@ -144,60 +211,115 @@ Diana Valdivia, Sofía Maldonado, Samantha Sánchez &amp; Rafael Takata
 
   <p class="date">2026-05-13</p>
 </section>
-<section id="qué-predecimos" class="slide level2">
-<h2>¿Qué predecimos?</h2>
+<section>
+<section id="qué-predecimos" class="title-slide slide level1 center">
+<h1><strong>¿Qué predecimos?</strong></h1>
+<div class="columns">
+<div class="column" style="width:55%;">
 <p>Vistas diarias del artículo <strong>Halloween</strong> en Wikipedia (en inglés),<br>
-del <strong>1 al 31 de octubre 2025</strong>.</p>
+extraídas con la <strong>Wikimedia REST API</strong>.</p>
 <ul>
-<li>Serie con spike extremo el 31-oct (~270k views vs ~8k normales)</li>
-<li>4 Halloweens disponibles en train (2022–2024)</li>
-<li>Forecast <strong>recursivo</strong>: cada predicción alimenta la siguiente ventana</li>
+<li><strong>Periodo:</strong> 2020–2025 (~2,131 observaciones)</li>
+<li><strong>Variable:</strong> <code>views</code> — usuarios únicos por día</li>
 </ul>
+</div><div class="column" style="width:45%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>base <span class="op">=</span> <span class="st">"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article"</span></span>
+<span id="cb1-2"><a href=""></a>url  <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>base<span class="sc">}</span><span class="ss">/en.wikipedia/all-access/user/Halloween/daily/20200101/20251031"</span></span>
+<span id="cb1-3"><a href=""></a></span>
+<span id="cb1-4"><a href=""></a>df <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb1-5"><a href=""></a>    requests.get(url).json()[<span class="st">"items"</span>]</span>
+<span id="cb1-6"><a href=""></a>)[[<span class="st">"views"</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
 </section>
 <section id="visualización-inicial" class="slide level2">
 <h2>Visualización Inicial</h2>
 <iframe src="Assets/daily_halloween_visits.html" width="100%" height="450px" frameborder="0" scrolling="no">
 </iframe>
 </section>
-<section id="datos-y-features" class="slide level2">
-<h2>Datos y features</h2>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Variable</th>
-<th>Correlación</th>
-<th>Justificación</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>es_halloween</code></td>
-<td><span class="math inline">\(0.739\)</span></td>
-<td>Spike del 31-oct</td>
-</tr>
-<tr class="even">
-<td><code>semana_halloween</code></td>
-<td><span class="math inline">\(0.611\)</span></td>
-<td>Rampa oct 24-30</td>
-</tr>
-<tr class="odd">
-<td><code>dias_para_halloween</code></td>
-<td><span class="math inline">\(-0.242\)</span></td>
-<td>Pearson engañoso — rampa real</td>
-</tr>
-<tr class="even">
-<td><code>views_lag7</code></td>
-<td><span class="math inline">\(0.213\)</span></td>
-<td>Memoria de corto plazo</td>
-</tr>
-</tbody>
-</table>
-<iframe src="Assets/variables_relacion.html" width="100%" height="450px" frameborder="0" scrolling="no">
+<section id="variables-exógenas" class="slide level2">
+<h2>Variables Exógenas</h2>
+<p>La serie de <strong>Halloween</strong> tiene estacionalidad marcada pero asimétrica: las visitas se aceleran conforme se acerca el 31-oct y caen abruptamente después, como el doble de un codo.</p>
+<p>Por eso, en lugar de depender solo de valores pasados, construimos variables que le dan <strong>contexto temporal</strong> al modelo — no solo “qué pasó antes”, sino <em>cuándo</em> está ocurriendo y qué tan cerca está de Halloween.</p>
+</section>
+<section id="variables-exógenas-tipos" class="slide level2">
+<h2>Variables Exógenas — Tipos</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Variables de calendario</strong></p>
+<p>Representan la cercanía al evento y patrones temporales: <code>dias_para_halloween</code>, <code>es_halloween</code>, <code>semana_halloween</code>, y variables cíclicas (sin/cos) para día de semana y mes.</p>
+</div><div class="column" style="width:50%;">
+<p><strong>Variables de memoria</strong></p>
+<p>Lags de 7 y 14 días capturan ciclicidad semanal. A largo plazo pasan a alimentarse de predicciones propias — la acumulación de error es menor aquí por la estabilidad de la serie.</p>
+</div></div>
+</section>
+<section id="variables-exógenas-1" class="slide level2">
+<h2>Variables Exógenas</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href=""></a><span class="in">```{python}</span></span>
+<span id="cb2-2"><a href=""></a><span class="kw">def</span> days_to_halloween(date):</span>
+<span id="cb2-3"><a href=""></a>    hw <span class="op">=</span> pd.Timestamp(date.year, <span class="dv">10</span>, <span class="dv">31</span>)</span>
+<span id="cb2-4"><a href=""></a>    <span class="cf">return</span> <span class="bu">max</span>((hw <span class="op">-</span> date).days, <span class="dv">0</span>)</span>
+<span id="cb2-5"><a href=""></a></span>
+<span id="cb2-6"><a href=""></a><span class="co"># Halloween</span></span>
+<span id="cb2-7"><a href=""></a>df[<span class="st">'dias_para_halloween'</span>] <span class="op">=</span> df.index.<span class="bu">map</span>(days_to_halloween)</span>
+<span id="cb2-8"><a href=""></a>df[<span class="st">'es_octubre'</span>]          <span class="op">=</span> (df.index.month <span class="op">==</span> <span class="dv">10</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb2-9"><a href=""></a>df[<span class="st">'es_halloween'</span>]        <span class="op">=</span> ((df.index.month <span class="op">==</span> <span class="dv">10</span>) <span class="op">&amp;</span> (df.index.day <span class="op">==</span> <span class="dv">31</span>)).astype(<span class="bu">int</span>)</span>
+<span id="cb2-10"><a href=""></a>df[<span class="st">'semana_halloween'</span>]    <span class="op">=</span> ((df.index.month <span class="op">==</span> <span class="dv">10</span>) <span class="op">&amp;</span> (df.index.day <span class="op">&gt;=</span> <span class="dv">24</span>)).astype(<span class="bu">int</span>)</span>
+<span id="cb2-11"><a href=""></a></span>
+<span id="cb2-12"><a href=""></a><span class="co"># Fecha cíclica</span></span>
+<span id="cb2-13"><a href=""></a>df[<span class="st">'es_fin_de_semana'</span>] <span class="op">=</span> (df.index.dayofweek <span class="op">&gt;=</span> <span class="dv">5</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb2-14"><a href=""></a>df[<span class="st">'dia_semana_sin'</span>]   <span class="op">=</span> np.sin(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> df.index.dayofweek <span class="op">/</span> <span class="dv">7</span>)</span>
+<span id="cb2-15"><a href=""></a>df[<span class="st">'dia_semana_cos'</span>]   <span class="op">=</span> np.cos(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> df.index.dayofweek <span class="op">/</span> <span class="dv">7</span>)</span>
+<span id="cb2-16"><a href=""></a>df[<span class="st">'mes_sin'</span>]          <span class="op">=</span> np.sin(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> df.index.month <span class="op">/</span> <span class="dv">12</span>)</span>
+<span id="cb2-17"><a href=""></a>df[<span class="st">'mes_cos'</span>]          <span class="op">=</span> np.cos(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> df.index.month <span class="op">/</span> <span class="dv">12</span>)</span>
+<span id="cb2-18"><a href=""></a></span>
+<span id="cb2-19"><a href=""></a><span class="co"># Lags</span></span>
+<span id="cb2-20"><a href=""></a>df[<span class="st">'views_lag7'</span>]  <span class="op">=</span> df[<span class="st">'views'</span>].shift(<span class="dv">7</span>)</span>
+<span id="cb2-21"><a href=""></a>df[<span class="st">'views_lag14'</span>] <span class="op">=</span> df[<span class="st">'views'</span>].shift(<span class="dv">14</span>)</span>
+<span id="cb2-22"><a href=""></a></span>
+<span id="cb2-23"><a href=""></a>df_model <span class="op">=</span> df.dropna()</span>
+<span id="cb2-24"><a href=""></a><span class="bu">print</span>(<span class="ss">f"Shape final: </span><span class="sc">{</span>df_model<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-25"><a href=""></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="correlación-de-pearson" class="slide level2">
+<h2>Correlación de Pearson</h2>
+<p>Mide la <strong>fuerza de la relación lineal</strong> entre cada feature y las vistas diarias. Los valores van de −1 a 1: cercano a 1 = relación positiva fuerte, cercano a 0 = sin relación lineal.</p>
+<blockquote>
+<p>Pearson solo detecta relaciones <strong>lineales</strong> y es sensible a valores extremos. Con los spikes de Halloween, algunas variables pueden parecer poco correlacionadas</p>
+</blockquote>
+</section>
+<section class="slide level2">
+
+<iframe src="Assets/variables_relacion.html" width="100%" height="550px" frameborder="0" scrolling="no">
 </iframe>
+</section>
+<section id="rampa-de-vistas-hacia-halloween" class="slide level2">
+<h2>Rampa de vistas hacia Halloween</h2>
+<p>Para validar que <code>dias_para_halloween</code> realmente aporta información útil, se analizó cómo evolucionan las views durante octubre en cada año disponible.</p>
+<p>Aunque su correlación de Pearson fue relativamente baja, esto puede deberse a que la relación <strong>no es lineal</strong> — la rampa de visitas se acelera de forma exponencial conforme se acerca el 31-oct, algo que Pearson no captura.</p>
+</section>
+<section class="slide level2">
+
+<iframe src="Assets/halloween_by_year.html" width="100%" height="450px" frameborder="0" scrolling="no">
+</iframe>
+</section>
+<section id="análisis-del-día-de-la-semana" class="slide level2">
+<h2>Análisis del día de la semana</h2>
+<p>Las variables <code>dia_semana_sin</code>, <code>dia_semana_cos</code> y <code>es_fin_de_semana</code> obtuvieron correlaciones de aproximadamente <strong>0.01–0.016</strong>, prácticamente cero. Para verificar si esto refleja una ausencia real o si Pearson volvió a “fallar”, se graficó el promedio de vistas por día de semana excluyendo octubre.</p>
+</section>
+<section class="slide level2">
+
+<iframe src="Assets/views_by_week.html" width="100%" height="450px" frameborder="0" scrolling="no">
+</iframe>
+<p>¿Hay patrón semanal relevante?</p>
+<ul>
+<li>Máximo (día): Mar = 4,292</li>
+<li>Mínimo (día): Sáb = 3,000</li>
+<li>Ratio max/min: 1.43x</li>
+</ul>
 </section>
 <section id="split-temporal" class="slide level2">
 <h2>Split temporal</h2>
-<pre><code>Train:  2022-01-01 → 2024-09-30   (~1003 días)
+<pre><code>Train:  2020-01-15 → 2024-09-30   (~1721 días)
 Val:    2024-10-01 → 2024-10-31   (31 días — Octubre 2024)
 Test:   2025-10-01 → 2025-10-31   (31 días — Octubre 2025)</code></pre>
 <div class="callout callout-note callout-titled callout-style-default">
@@ -215,11 +337,6 @@ optimice sobre el evento de interés, no sobre días planos.</p>
 </div>
 </div>
 </section>
-<section id="halloween-a-lo-largo-de-los-años" class="slide level2">
-<h2>Halloween, a lo largo de los años</h2>
-<iframe src="Assets/halloween_by_year.html" width="100%" height="450px" frameborder="0" scrolling="no">
-</iframe>
-</section>
 <section id="arquitecturas" class="slide level2">
 <h2>Arquitecturas</h2>
 <div class="columns">
@@ -230,7 +347,7 @@ optimice sobre el evento de interés, no sobre días planos.</p>
 <li><code>Dropout(0.2)</code></li>
 <li><code>Dense(32, ReLU)</code></li>
 <li><code>Dense(1)</code></li>
-<li>Ventana: W=30 días aplanada</li>
+<li>Ventana: W=45 días aplanada</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <p><strong>LSTM</strong></p>
@@ -243,26 +360,86 @@ optimice sobre el evento de interés, no sobre días planos.</p>
 </ul>
 </div></div>
 </section>
-<section id="arquitecturas-2" class="slide level2">
-<h2>Arquitecturas 2</h2>
+<section class="slide level2">
+
+</section>
+<section id="entrenamiento-pesos-ponderados" class="slide level2">
+<h2>Entrenamiento — Pesos Ponderados</h2>
+<p>El spike de Halloween representa solo unos pocos días dentro de años de datos. Sin ponderación, el modelo aprendería principalmente los días normales e ignoraría el evento más importante.</p>
+<p>Durante el entrenamiento, cada observación contribuye al error total según su peso. Con <code>sample_weights</code>, el gradiente se escala por ese peso — un día con peso 15 produce un ajuste 15 veces mayor en los parámetros que un día normal.</p>
 <div class="columns">
-<div class="column" style="width:100%;">
-<p><strong>Ensamble</strong> - Combinación sencilla de los resultados de los modelos. Se suman ambos y se dividen entre 2</p>
+<div class="column" style="width:55%;">
+<p>Así se distribuyen los pesos en la serie:</p>
+<ul>
+<li><strong>Peso 1</strong> — días normales (la mayoría del año)</li>
+<li><strong>Peso 3–4</strong> — rampa: 26–30 de octubre</li>
+<li><strong>Peso 10–15</strong> — spike: 31 de octubre</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a><span class="kw">def</span> make_sample_weights(dates, </span>
+<span id="cb4-2"><a href=""></a>    spike_weight<span class="op">=</span><span class="fl">15.0</span>, </span>
+<span id="cb4-3"><a href=""></a>    ramp_weight<span class="op">=</span><span class="fl">3.0</span>):</span>
+<span id="cb4-4"><a href=""></a>  w <span class="op">=</span> np.ones(<span class="bu">len</span>(dates))</span>
+<span id="cb4-5"><a href=""></a>  <span class="cf">for</span> i, d <span class="kw">in</span> <span class="bu">enumerate</span>(dates):</span>
+<span id="cb4-6"><a href=""></a>    <span class="cf">if</span> d.month<span class="op">==</span><span class="dv">10</span> <span class="kw">and</span> d.day<span class="op">==</span><span class="dv">31</span>:</span>
+<span id="cb4-7"><a href=""></a>      w[i] <span class="op">=</span> spike_weight</span>
+<span id="cb4-8"><a href=""></a>    <span class="cf">elif</span> d.month<span class="op">==</span><span class="dv">10</span> <span class="kw">and</span> d.day<span class="op">&gt;=</span><span class="dv">26</span>:</span>
+<span id="cb4-9"><a href=""></a>      w[i] <span class="op">=</span> ramp_weight</span>
+<span id="cb4-10"><a href=""></a>  <span class="cf">return</span> w</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
+<p>El efecto: el modelo es penalizado <strong>mucho más fuertemente</strong> cuando falla en el spike o en la rampa previa, forzándolo a aprender esos pocos días críticos aunque sean minoría en el dataset.</p>
+</section>
+<section id="entrenamiento-parámetros" class="slide level2">
+<h2>Entrenamiento — Parámetros</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>FFNN</strong></p>
+<ul>
+<li><code>lr</code> = 1e-3</li>
+<li><code>batch_size</code> = 32</li>
+<li><code>spike_weight</code> = 15</li>
+<li><code>ramp_weight</code> = 3</li>
+<li><code>epochs</code> = 300, <code>patience</code> = 30</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><strong>LSTM</strong></p>
+<ul>
+<li><code>lr</code> = 3e-4</li>
+<li><code>batch_size</code> = 16</li>
+<li><code>spike_weight</code> = 10</li>
+<li><code>ramp_weight</code> = 4</li>
+<li><code>epochs</code> = 300, <code>patience</code> = 30</li>
+</ul>
+</div></div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>¿Por qué Huber?</strong> Con MSE, los spikes de Halloween se castigarían de forma desproporcionada al elevar el error al cuadrado. Huber se comporta como MSE para errores pequeños y como MAE para errores grandes (<code>delta=1.0</code>), siendo más robusto ante outliers extremos.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="curvas-de-pérdida" class="slide level2">
 <h2>Curvas de pérdida</h2>
+<p>Veamos como se ven las curvas de pérdida de nuestros modelos:</p>
 <iframe src="Assets/curvas_perdida.html" width="100%" height="450px" frameborder="0" scrolling="no">
 </iframe>
 </section>
 <section id="forecast-recursivo-halloweeen-2025" class="slide level2">
 <h2>Forecast Recursivo, Halloweeen 2025</h2>
+<p>Para probar que el modelo funciona, porbemos a predecir un futuro que ya conocemos, el del año pasado:</p>
 <iframe src="Assets/forecast_ensamble_3.html" width="100%" height="450px" frameborder="0" scrolling="no">
 </iframe>
-<p>Prueba del modelo con datos ya conocidos</p>
 </section>
 <section id="métricas-de-rendimiento" class="slide level2">
 <h2>Métricas de Rendimiento</h2>
+<p>Nustros modelos obtuvieron las siguientes métircas:</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -293,8 +470,16 @@ optimice sobre el evento de interés, no sobre días planos.</p>
 <h2>Errores Acumulados</h2>
 <iframe src="Assets/errores_acumulados_2.html" width="100%" height="450px" frameborder="0" scrolling="no">
 </iframe>
-<p>Error en el spike (31-oct 2025): FFNN: 35,037 views LSTM: 8,184 views</p>
-<p>Error promedio dias normales (1-30 oct): FFNN: 6,453 views LSTM: 3,217 views</p>
+<p>Error en el spike (31-oct 2025):</p>
+<ul>
+<li>FFNN: 35,037 views</li>
+<li>LSTM: 8,184 views</li>
+</ul>
+<p>Error promedio dias normales (1-30 oct):</p>
+<ul>
+<li>FFNN: 6,453 views</li>
+<li>LSTM: 3,217 views</li>
+</ul>
 </section>
 <section id="predicciónes-a-futuro-2026-y-2027" class="slide level2">
 <h2>Predicciónes a Futuro, 2026 y 2027</h2>
@@ -319,7 +504,7 @@ optimice sobre el evento de interés, no sobre días planos.</p>
 <li>Las variables exógenas fueron fundamentales para ayudar a las redes neuronales a comprender el por qué del comportamiento de la serie</li>
 </ul>
 
-</section>
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
