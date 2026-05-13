@@ -28,6 +28,16 @@ del **1 al 31 de octubre 2025**.
 
 ---
 
+## Visualización Inicial
+```{=html}
+<iframe src="Assets/daily_halloween_visits.html"
+        width="100%" height="450px"
+        frameborder="0" scrolling="no">
+</iframe>
+```
+
+---
+
 ## Datos y features
 
 | Variable | Correlación | Justificación |
@@ -36,6 +46,13 @@ del **1 al 31 de octubre 2025**.
 | `semana_halloween` | $0.611$ | Rampa oct 24-30 |
 | `dias_para_halloween` | $-0.242$ | Pearson engañoso — rampa real |
 | `views_lag7` | $0.213$ | Memoria de corto plazo |
+
+```{=html}
+<iframe src="Assets/variables_relacion.html"
+        width="100%" height="450px"
+        frameborder="0" scrolling="no">
+</iframe>
+```
 
 ---
 
@@ -56,11 +73,12 @@ optimice sobre el evento de interés, no sobre días planos.
 
 ## Halloween, a lo largo de los años
 ```{=html}
-<img src="Assets/newplot.png"
+<iframe src="Assets/halloween_by_year.html"
         width="100%" height="450px"
         frameborder="0" scrolling="no">
-</img>
+</iframe>
 ```
+
 
 ---
 
@@ -165,7 +183,7 @@ Error promedio dias normales (1-30 oct):
 ## Análisis de Predicciones
 
 - Respetan el comportamiento histórico, sin exceder el rango típico de spikes anteriores
-- Captan la tendencia a la alta que ha mostrado en años recientes
+- Captan la tendencia a la baja que ha mostrado en años recientes
 - FFNN sigue dando predicciones más altas, LSTM sigue siendo más conservador
 - El LSTM es incluso mejor que el modelo ensamble
 
